@@ -36,22 +36,29 @@ body {
 .side-art-stack {
   position: fixed;
   z-index: 0;
-  top: 24px;
+  top: 16px;
   left: calc(var(--page-pad) + var(--sim-w) + var(--poster-gap));
   right: var(--page-pad);
-  bottom: 24px;
-  display: grid;
-  grid-template-rows: 1fr;
+  bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: min(calc(100vw - var(--page-pad) - var(--sim-w) - var(--poster-gap) - var(--page-pad)), 36vw);
-  height: calc(100vh - 48px);
+  height: auto;
+  max-height: calc(100dvh - 32px);
+  max-height: calc(100vh - 32px);
+  max-height: calc(100dvh - 32px);
+  overflow: hidden;
   pointer-events: none;
 }
 
 .side-art {
-  width: 100%;
-  height: 100%;
+  width: auto;
+  height: auto;
   max-width: 100%;
-  max-height: 100%;
+  max-height: calc(100dvh - 32px);
+  max-height: calc(100vh - 32px);
+  max-height: calc(100dvh - 32px);
   object-fit: contain;
   border: 0;
   border-radius: 0;
