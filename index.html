@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Albion Clap Damage Simulator</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="side-art-stack" aria-hidden="true">
+      <img class="side-art" src="./assets/subutai-right.png" alt="" />
+    </div>
+    <main class="app-shell">
+      <section class="topbar">
+        <div class="brand-block">
+          <img class="author-mark" src="./assets/subutai.png" alt="" />
+          <div>
+            <p class="eyebrow" data-i18n="game">Albion Online</p>
+            <h1 data-i18n="title">Clap Damage Simulator</h1>
+            <div class="meta-line">
+              <span data-i18n="author">작성자 : [SUBUTAI] SSAPGGULBBA</span>
+              <span id="versionText">v2026.05.02</span>
+            </div>
+          </div>
+        </div>
+        <div class="top-actions">
+          <button id="languageButton" type="button" title="한국어 / English">English</button>
+          <button id="resetButton" type="button" data-i18n="reset" title="기본값으로 되돌리기">Reset</button>
+          <button id="addSkillButton" type="button" data-i18n="addSkill" title="빈 DPS 행 추가">Add DPS</button>
+        </div>
+      </section>
+
+      <section class="summary-grid compact" aria-label="계산 결과 요약">
+        <article class="metric primary">
+          <span data-i18n="seqTotal">Sequancial 최종 피해</span>
+          <strong id="sequentialDamage">0</strong>
+          <small id="clapMeta">0 attackers</small>
+        </article>
+        <article class="metric">
+          <span data-i18n="minTotal">Min 최종 피해</span>
+          <strong id="minDamage">0</strong>
+          <small id="damageGap">+0%</small>
+        </article>
+        <article class="metric">
+          <span data-i18n="finalResist">최종 저항</span>
+          <strong id="finalResist">0</strong>
+          <small id="appliedPierce">Applied pierce: 0</small>
+        </article>
+      </section>
+
+      <section class="workspace">
+        <aside class="panel controls-panel">
+          <div class="panel-head">
+            <h2 data-i18n="combatCondition">전투 조건</h2>
+          </div>
+
+          <div class="field-grid">
+            <label>
+              <span data-i18n="supportTank">오펜시브 서포트/탱커</span>
+              <input id="supportTank" type="number" min="0" step="1" />
+            </label>
+            <label>
+              <span data-i18n="resistPotion">저항 포션 티어</span>
+              <select id="resistPotion"></select>
+            </label>
+            <label>
+              <span data-i18n="avaOmelette">AVA 오믈렛</span>
+              <select id="avaOmelette"></select>
+            </label>
+            <label>
+              <span data-i18n="enemyDisarray">적 디스어레이</span>
+              <input id="enemyDisarray" type="number" min="0" step="1" />
+            </label>
+            <label>
+              <span data-i18n="myDisarray">내 디스어레이</span>
+              <input id="myDisarray" type="number" min="0" step="1" />
+            </label>
+            <label>
+              <span data-i18n="clappedEnemy">맞은 적 수</span>
+              <input id="clappedEnemy" type="number" min="0" max="30" step="1" />
+            </label>
+            <label>
+              <span data-i18n="basilisk">Basilisk</span>
+              <select id="basilisk"></select>
+            </label>
+            <label>
+              <span data-i18n="basePierce">기본 방깎</span>
+              <input id="pierce" type="number" min="0" step="1" />
+            </label>
+            <label>
+              <span data-i18n="mainResist">기준 RAW 저항</span>
+              <input id="targetResist" type="number" min="0" step="1" />
+            </label>
+          </div>
+
+          <div class="formula-card">
+            <div>
+              <span data-i18n="attackerCount">공격자 수</span>
+              <strong id="attackerCount">0</strong>
+            </div>
+            <div>
+              <span data-i18n="disarrayDebuff">디스어레이 감소</span>
+              <strong id="disarrayDebuff">0%</strong>
+            </div>
+            <div>
+              <span data-i18n="aoeBuff">광역 보너스</span>
+              <strong id="aoeBuff">0%</strong>
+            </div>
+            <div>
+              <span data-i18n="resilienceDebuff">레질리언스 감소</span>
+              <strong id="resilienceDebuff">0%</strong>
+            </div>
+          </div>
+        </aside>
+
+        <section class="panel skills-panel">
+          <div class="panel-head">
+            <h2 data-i18n="sequence">딜 시퀀스</h2>
+            <span id="activeSkillCount">0 active</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th data-i18n="weapon">무기</th>
+                  <th data-i18n="tooltipDamage">툴팁 피해</th>
+                  <th data-i18n="passiveBuff">패시브</th>
+                  <th data-i18n="activeBuff">액티브</th>
+                  <th data-i18n="damageBuff">피해 버프</th>
+                  <th data-i18n="pen">관통</th>
+                  <th>Min</th>
+                  <th>Sequancial</th>
+                </tr>
+              </thead>
+              <tbody id="skillsBody"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+
+      <section class="panel comparison-panel">
+        <div class="panel-head">
+          <h2 data-i18n="armorCompare">방어 타입별 데미지 비교</h2>
+          <button id="addTargetButton" type="button" data-i18n="addTarget">Add Target</button>
+        </div>
+        <div class="table-wrap">
+          <table class="compare-table">
+            <thead>
+              <tr>
+                <th data-i18n="targetType">타입</th>
+                <th data-i18n="rawResist">RAW 저항</th>
+                <th data-i18n="targetResist">포션 후 저항</th>
+                <th data-i18n="appliedPierceShort">적용 방깎</th>
+                <th data-i18n="finalResist">최종 저항</th>
+                <th>Min</th>
+                <th>Sequancial</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="targetCompareBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="chart-grid">
+        <section class="panel detail-panel">
+          <div class="panel-head">
+            <h2 data-i18n="targetDamageChart">타입별 Min / Sequancial 그래프</h2>
+            <span data-i18n="excelFormula">v4 엑셀 수식 기준</span>
+          </div>
+          <canvas id="damageCanvas" width="900" height="360" aria-label="타입별 데미지 그래프"></canvas>
+        </section>
+
+        <section class="panel sequence-chart-panel">
+          <div class="panel-head">
+            <h2 data-i18n="sequenceContribution">DPS별 최종 데미지 기여</h2>
+            <span>Min / Sequancial</span>
+          </div>
+          <canvas id="sequenceCanvas" width="900" height="360" aria-label="DPS별 기여 그래프"></canvas>
+        </section>
+      </section>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
