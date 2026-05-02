@@ -25,6 +25,7 @@
 body {
   min-width: 320px;
   margin: 0;
+  overflow-x: hidden;
   background:
     linear-gradient(rgba(17, 19, 21, 0.9), rgba(17, 19, 21, 0.96)),
     repeating-linear-gradient(135deg, rgba(217, 164, 65, 0.08) 0 1px, transparent 1px 18px),
@@ -501,17 +502,27 @@ canvas {
 
 @media (max-width: 720px) {
   .app-shell {
-    width: min(100% - 20px, 1440px);
-    padding-top: 18px;
+    width: calc(100% - 8px);
+    padding-top: 8px;
   }
 
   .topbar,
-  .summary-grid,
   .workspace,
-  .field-grid,
   .damage-layout,
   .chart-grid {
     grid-template-columns: 1fr;
+  }
+
+  .topbar {
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .summary-grid,
+  .summary-grid.compact {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 4px;
+    margin-bottom: 6px;
   }
 
   .topbar {
@@ -519,28 +530,244 @@ canvas {
     align-items: start;
   }
 
-  .summary-grid.compact {
-    grid-template-columns: 1fr;
-  }
-
   .brand-block {
     align-items: flex-start;
+    gap: 8px;
   }
 
   .author-mark {
-    width: 40px;
-    height: 40px;
+    width: 28px;
+    height: 28px;
+    border-radius: 5px;
+  }
+
+  .eyebrow {
+    margin-bottom: 2px;
+    font-size: 0.62rem;
+  }
+
+  h1 {
+    font-size: 1.25rem;
+  }
+
+  h2 {
+    font-size: 0.78rem;
+  }
+
+  .meta-line {
+    gap: 4px;
+    margin-top: 4px;
+    font-size: 0.58rem;
+  }
+
+  .meta-line span {
+    min-height: 18px;
+    padding: 0 5px;
   }
 
   .top-actions {
     justify-content: stretch;
+    gap: 4px;
   }
 
   .top-actions button {
     flex: 1;
+    min-height: 28px;
+    padding: 0 6px;
+    font-size: 0.7rem;
   }
 
   .metric {
-    min-height: 96px;
+    min-height: 58px;
+    padding: 7px 5px;
+    border-radius: 6px;
+  }
+
+  .metric span,
+  .metric small,
+  .section-label,
+  label span,
+  .panel-head span,
+  .formula-card span {
+    font-size: 0.55rem;
+  }
+
+  .metric strong {
+    margin: 4px 0 2px;
+    font-size: clamp(1rem, 6vw, 1.28rem);
+  }
+
+  .panel {
+    border-radius: 6px;
+  }
+
+  .panel-head {
+    min-height: 34px;
+    padding: 0 7px;
+  }
+
+  .panel-head button {
+    min-height: 26px;
+    padding: 0 6px;
+    font-size: 0.66rem;
+  }
+
+  .controls-panel {
+    padding-bottom: 6px;
+  }
+
+  .field-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 5px;
+    padding: 7px;
+  }
+
+  label {
+    gap: 3px;
+  }
+
+  input,
+  select {
+    min-height: 28px;
+    padding: 0 4px;
+    border-radius: 5px;
+    font-size: 0.72rem;
+  }
+
+  .formula-card {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin: 0 7px;
+    border-radius: 6px;
+  }
+
+  .formula-card div {
+    min-height: 48px;
+    padding: 6px 4px;
+  }
+
+  .formula-card strong {
+    margin-top: 4px;
+    font-size: 0.9rem;
+  }
+
+  .table-wrap {
+    overflow-x: hidden;
+  }
+
+  table,
+  .compare-table {
+    min-width: 0;
+    table-layout: fixed;
+  }
+
+  th,
+  td {
+    height: 34px;
+    padding: 2px;
+    font-size: 0.58rem;
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  th {
+    font-size: 0.54rem;
+    line-height: 1.05;
+  }
+
+  th:first-child,
+  td:first-child {
+    width: auto;
+  }
+
+  td input,
+  td input[type="text"],
+  td select {
+    min-width: 0;
+    min-height: 24px;
+    width: 100%;
+    padding: 0 2px;
+    font-size: 0.58rem;
+  }
+
+  td output {
+    font-size: 0.62rem;
+  }
+
+  td button {
+    min-height: 24px;
+    padding: 0 2px;
+    font-size: 0.52rem;
+  }
+
+  .skills-panel table th:nth-child(1),
+  .skills-panel table td:nth-child(1) {
+    width: 5%;
+  }
+
+  .skills-panel table th:nth-child(2),
+  .skills-panel table td:nth-child(2) {
+    width: 18%;
+  }
+
+  .skills-panel table th:nth-child(3),
+  .skills-panel table td:nth-child(3) {
+    width: 12%;
+  }
+
+  .skills-panel table th:nth-child(4),
+  .skills-panel table td:nth-child(4),
+  .skills-panel table th:nth-child(5),
+  .skills-panel table td:nth-child(5),
+  .skills-panel table th:nth-child(6),
+  .skills-panel table td:nth-child(6),
+  .skills-panel table th:nth-child(7),
+  .skills-panel table td:nth-child(7) {
+    width: 10%;
+  }
+
+  .skills-panel table th:nth-child(8),
+  .skills-panel table td:nth-child(8),
+  .skills-panel table th:nth-child(9),
+  .skills-panel table td:nth-child(9) {
+    width: 12.5%;
+  }
+
+  .compare-table th:nth-child(1),
+  .compare-table td:nth-child(1) {
+    width: 17%;
+  }
+
+  .compare-table th:nth-child(2),
+  .compare-table td:nth-child(2),
+  .compare-table th:nth-child(3),
+  .compare-table td:nth-child(3),
+  .compare-table th:nth-child(4),
+  .compare-table td:nth-child(4),
+  .compare-table th:nth-child(5),
+  .compare-table td:nth-child(5),
+  .compare-table th:nth-child(6),
+  .compare-table td:nth-child(6),
+  .compare-table th:nth-child(7),
+  .compare-table td:nth-child(7) {
+    width: 13%;
+  }
+
+  .compare-table th:nth-child(8),
+  .compare-table td:nth-child(8) {
+    width: 5%;
+  }
+
+  .detail-panel,
+  .comparison-panel,
+  .sequence-chart-panel {
+    margin-top: 6px;
+  }
+
+  .detail-panel > canvas,
+  .sequence-chart-panel canvas {
+    width: calc(100% - 10px);
+    height: 260px;
+    margin: 5px;
   }
 }
