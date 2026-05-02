@@ -501,7 +501,35 @@ canvas {
 }
 
 @media (max-width: 720px) {
+  body {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .side-art-stack {
+    position: static;
+    order: 2;
+    display: block;
+    width: calc(100% - 8px);
+    max-width: 100%;
+    height: auto;
+    max-height: none;
+    margin: 8px auto 18px;
+    overflow: visible;
+    opacity: 1;
+  }
+
+  .side-art {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: none;
+    object-fit: contain;
+    opacity: 0.72;
+  }
+
   .app-shell {
+    order: 1;
     width: calc(100% - 8px);
     padding-top: 8px;
   }
